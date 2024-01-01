@@ -1,118 +1,35 @@
-import { CardContext } from "@/context/Cardcontext";
-import { decodeString } from "@/lib/utils";
-import axios from "axios";
-import React, { useContext, useEffect, useRef } from "react";
+import { useState } from "react";
+import { DialogDemo } from "./CreateCard";
 import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+import logo from "@/assets/logoo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const context = useContext(CardContext);
-
-  if (!context) {
-    console.log("No COntext Data");
-    return null;
-  }
-
-  const { setFlashCards, categories, setCategories } = context;
-
-  const categoryEl = useRef<HTMLSelectElement>(null);
-  const amountEl = useRef<HTMLInputElement | null>(null);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    axios
-      .get("https://opentdb.com/api.php", {
-        params: {
-          amount: amountEl?.current?.value,
-          category: categoryEl?.current?.value,
-        },
-      })
-      .then((res) => {
-        setFlashCards(
-          res.data.results.map((questionItem: any, index: number) => {
-            const answer = decodeString(questionItem.correct_answer);
-            const options = [
-              ...questionItem.incorrect_answers.map((a: string) =>
-                decodeString(a)
-              ),
-              answer,
-            ];
-            return {
-              id: `${index}-${Date.now()}`,
-              question: questionItem?.question,
-              answer: questionItem.correct_answer,
-              options: options.sort(() => Math.random() - 5),
-            };
-          })
-        );
-      });
-  };
-
-  useEffect(() => {
-    axios.get("https://opentdb.com/api_category.php").then((res) => {
-      setCategories(res?.data?.trivia_categories);
-    });
-  }, []);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className="header border-1">
-      <form
-        onSubmit={handleSubmit}
-        className="flex justify-center align-center "
-      >
-        {categories && (
-          <div className="form-group">
-            <label htmlFor="category">Category</label>
+    <>
+      <div className="header border-1">
+        <div className="flex align-center gap-2">
+          <Link to={"/"}>
+            <img src={logo} alt="Logo" width={50} height={50} />
+          </Link>
 
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a Category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Select Category</SelectLabel>
-                  {categories.map((category) => (
-                    <SelectItem
-                      value={category.id.toString()}
-                      key={category.id}
-                    >
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
+          <Link to={"/study"} className="self-center mx-4 text-lg font-bold">
+            Study
+          </Link>
+        </div>
 
-        <div className="form-group">
-          <label htmlFor="amount">Number of Questions ?</label>
-          <Input
-            type="number"
-            id="amount"
-            min={1}
-            step={1}
-            defaultValue={10}
-            ref={amountEl}
-          />
+        <div className="flex align-center gap-2">
+          <Button onClick={() => setIsOpen(!isOpen)}>Create Card</Button>
+          <ModeToggle />
         </div>
-        <div className="form-group">
-          <Button className="btn">Generate</Button>
-        </div>
-      </form>
-      <ModeToggle />
-    </div>
+      </div>
+
+      <DialogDemo isOpen={isOpen} setIsOpen={setIsOpen} />
+    </>
   );
 };
 

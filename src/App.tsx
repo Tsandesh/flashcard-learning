@@ -1,26 +1,14 @@
-import { useContext } from "react";
-import FlashcardList from "./components/FlashcardList";
+import Home from "./pages/Home";
 import "./App.css";
-
-import Navbar from "./components/Navbar";
-import { CardContext } from "./context/Cardcontext";
+import { Route, Routes } from "react-router-dom";
+import Study from "./pages/Study";
 
 function App() {
-  const context = useContext(CardContext);
-  if (!context) {
-    console.log("No COntext Data");
-    return null;
-  }
-
-  const { flashCards } = context;
-
   return (
-    <>
-      <Navbar />
-      <div className="container">
-        <FlashcardList flashcards={flashCards} />
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/study" element={<Study />} />
+    </Routes>
   );
 }
 

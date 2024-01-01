@@ -1,0 +1,89 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Vehicles",
+      "question": "Which one is NOT the function of engine oil in car engines?",
+      "correct_answer": "Combustion",
+      "incorrect_answers": ["Lubrication", "Cooling", "Reduce corrosion"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Animals",
+      "question": "What bird is born with claws on its wing digits?",
+      "correct_answer": "Hoatzin",
+      "incorrect_answers": ["Cormorant", "Cassowary", "Secretary bird"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Music",
+      "question": "The 1952 musical composition 4&#039;33&quot;, composed by prolific American composer John Cage, is mainly comprised of what sound?",
+      "correct_answer": "Silence",
+      "incorrect_answers": ["Farts", "People talking", "Cricket chirps"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Comics",
+      "question": "This Marvel superhero is often called &quot;The man without fear&quot;.",
+      "correct_answer": "Daredevil",
+      "incorrect_answers": ["Thor", "Wolverine", "Hulk"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Celebrities",
+      "question": "Which American celebrity died in 1977 playing golf in La Moraleja, Madrid?",
+      "correct_answer": "Bing Crosby",
+      "incorrect_answers": ["Elvis Presley", "Charlie Chaplin", "Groucho Marx"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Science &amp; Nature",
+      "question": "Which part of the body does glaucoma affect?",
+      "correct_answer": "Eyes",
+      "incorrect_answers": ["Throat", "Stomach", "Blood"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Science &amp; Nature",
+      "question": "Which portion of the Marijuana plant produces the psychoactive substance known as THC?",
+      "correct_answer": "Female Flower",
+      "incorrect_answers": ["Leaves", "Male Flower", "Root Ball"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Film",
+      "question": "What was the last Marx Brothers film to feature Zeppo?",
+      "correct_answer": "Duck Soup",
+      "incorrect_answers": [
+        "A Night at the Opera",
+        "A Day at the Races",
+        "Monkey Business"
+      ]
+    },
+    {
+      "type": "boolean",
+      "difficulty": "easy",
+      "category": "Entertainment: Film",
+      "question": "The 2010 film &quot;The Social Network&quot; is a biographical drama film about MySpace founder Tom Anderson.",
+      "correct_answer": "False",
+      "incorrect_answers": ["True"]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "General Knowledge",
+      "question": "What did the Spanish autonomous community of Catalonia ban in 2010, that took effect in 2012?",
+      "correct_answer": "Bullfighting",
+      "incorrect_answers": ["Fiestas", "Flamenco", "Mariachi"]
+    }
+  ]
+}
