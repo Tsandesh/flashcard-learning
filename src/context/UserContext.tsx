@@ -40,6 +40,7 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
         const user = userCredential.user;
 
         setUser({
+          // @ts-ignore
           accessToken: user?.accessToken,
           email: user?.email,
         });

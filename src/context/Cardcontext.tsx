@@ -58,6 +58,7 @@ const CardContextProvider = ({ children }: { children: ReactNode }) => {
       id: doc.id,
       ...doc.data(),
     }));
+    // @ts-ignore
     setCards(res);
   };
 
