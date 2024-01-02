@@ -42,7 +42,7 @@ const FlashCard = ({ flashcard }: CardType) => {
       <Card
         className={`card ${flip ? "flip" : ""}`}
         onClick={() => setFlip(!flip)}
-        style={{ height: "300px" }}
+        style={{ height: "400px" }}
       >
         <div className="front" ref={frontEl}>
           <CardHeader>
