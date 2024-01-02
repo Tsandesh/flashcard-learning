@@ -20,7 +20,8 @@ To get started follow the steps below
     .now install all the necessary dependencies and packages  "yarn" or " npm install"
 
 
-
+To run the unit test
+    yarn test 
 
 ## About 
 
