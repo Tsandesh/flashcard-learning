@@ -14,6 +14,8 @@ import { Label } from "@/components/ui/label";
 import { CardContext } from "@/context/Cardcontext";
 import { Textarea } from "./ui/textarea";
 
+import { Alert, AlertTitle } from "./ui/alert";
+
 type DilogType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,13 +26,22 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
   if (!context) {
     return null;
   }
+
   const { addCard, toggle } = context;
   const [question, setQuestion] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [incorrectAnswers, setIncorrectAnswers] = useState(["", "", "", ""]);
   const [description, setDescription] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const handleSubmit = () => {
+    setErrMsg("");
+    const { isValid } = checkValidation();
+
+    if (!isValid) {
+      return;
+    }
+
     const newItem = {
       question: question,
       answer: correctAnswer,
@@ -41,9 +52,35 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
       description,
     };
     addCard(newItem);
-    // setUserCards([...userCards, newItem]);
     setIsOpen(false);
+    setErrMsg("");
   };
+
+  function checkValidation() {
+    if (question.length === 0) {
+      setErrMsg("Question should not be empty");
+      return { isValid: false };
+    }
+    if (correctAnswer.length === 0) {
+      setErrMsg("Answer should not be empty");
+      return { isValid: false };
+    }
+    if (description.length === 0) {
+      setErrMsg("Description should not be empty");
+      return { isValid: false };
+    }
+    if (
+      incorrectAnswers[0].length === 0 ||
+      incorrectAnswers[1].length === 0 ||
+      incorrectAnswers[2].length === 0
+    ) {
+      setErrMsg("Options should not be empty");
+      return { isValid: false };
+    }
+
+    setErrMsg(""); // Clear error message if all fields are valid
+    return { isValid: true };
+  }
 
   useEffect(() => {
     if (isOpen === false) {
@@ -57,6 +94,11 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
     <Dialog open={isOpen} onOpenChange={() => setIsOpen}>
       <DialogContent className="sm:max-w-[425px] md:max-w-[600px]">
         <DialogHeader>
+          {errMsg && (
+            <Alert variant="destructive">
+              <AlertTitle> {errMsg}</AlertTitle>
+            </Alert>
+          )}
           <DialogTitle>Create a flash card</DialogTitle>
           <DialogDescription>
             Fill up everything below to create a card
@@ -70,8 +112,12 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
             <Input
               id="question"
               value={question}
-              onChange={(e) => setQuestion(e.target.value)}
+              onChange={(e) => {
+                setQuestion(e.target.value);
+                setErrMsg("");
+              }}
               className="col-span-3"
+              required
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -81,8 +127,12 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
             <Input
               id="answer"
               value={correctAnswer}
-              onChange={(e) => setCorrectAnswer(e.target.value)}
+              onChange={(e) => {
+                setCorrectAnswer(e.target.value);
+                setErrMsg("");
+              }}
               className="col-span-3"
+              required
             />
           </div>{" "}
           <div className="grid grid-cols-4 items-center gap-4">
@@ -99,6 +149,7 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
                   incorrectAnswers[2],
                 ])
               }
+              required
               className="col-span-3"
             />
           </div>{" "}
@@ -117,6 +168,7 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
                 ])
               }
               className="col-span-3"
+              required
             />
           </div>{" "}
           <div className="grid grid-cols-4 items-center gap-4">
@@ -134,6 +186,7 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
                 ])
               }
               className="col-span-3"
+              required
             />
           </div>{" "}
           <div className="grid grid-cols-4 items-center gap-4">
@@ -145,6 +198,7 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
               onChange={(e) => setDescription(e.target.value)}
               className="col-span-3"
               placeholder="Tell us about answer"
+              required
             />
           </div>
         </div>

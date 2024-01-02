@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DialogDemo } from "./CreateCard";
 import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
 
 import logo from "@/assets/logoo.png";
 import { Link } from "react-router-dom";
+import { UserContext } from "@/context/UserContext";
+import { LoginModal } from "./Login";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen2, setIsOpen2] = useState<boolean>(false);
+  const context = useContext(UserContext);
+  if (!context) {
+    return null;
+  }
+
+  const { user, handleLogout } = context;
 
   return (
     <>
@@ -23,12 +32,21 @@ const Navbar = () => {
         </div>
 
         <div className="flex align-center gap-2">
-          <Button onClick={() => setIsOpen(!isOpen)}>Create Card</Button>
+          {user.accessToken === "" ? (
+            <Button onClick={() => setIsOpen2(!isOpen)}> Login</Button>
+          ) : (
+            <>
+              <Button onClick={() => setIsOpen(!isOpen)}>Create Card</Button>
+              <Button onClick={() => handleLogout()}>Log Out</Button>
+            </>
+          )}
+
           <ModeToggle />
         </div>
       </div>
 
       <DialogDemo isOpen={isOpen} setIsOpen={setIsOpen} />
+      <LoginModal isOpen={isOpen2} setIsOpen={setIsOpen2} />
     </>
   );
 };

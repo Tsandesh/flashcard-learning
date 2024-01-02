@@ -11,6 +11,7 @@ import { Check, DeleteIcon, Edit2 } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { CardType } from "@/types/CardType";
+import { UserContext } from "@/context/UserContext";
 
 const FlashCard = ({ flashcard }: CardType) => {
   const context = useContext(CardContext);
@@ -18,6 +19,12 @@ const FlashCard = ({ flashcard }: CardType) => {
     return null;
   }
   const { updateCard, deleteCard } = context;
+  const context2 = useContext(UserContext);
+  if (!context2) {
+    return null;
+  }
+
+  const { user } = context2;
 
   const [flip, setFlip] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -67,38 +74,42 @@ const FlashCard = ({ flashcard }: CardType) => {
           </CardContent>
 
           <CardFooter className="flex justify-end gap-2">
-            {!edit ? (
-              <>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEdit(!edit);
-                  }}
-                >
-                  <Edit2 />
+            {user.accessToken !== "" ? (
+              !edit ? (
+                <>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEdit(!edit);
+                    }}
+                  >
+                    <Edit2 />
+                  </Button>
+                </>
+              ) : (
+                <Button>
+                  <Check
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSave();
+                      setEdit(!edit);
+                    }}
+                  />
                 </Button>
-              </>
-            ) : (
-              <Button>
-                <Check
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSave();
-                    setEdit(!edit);
-                  }}
-                />
+              )
+            ) : null}
+
+            {user?.accessToken !== "" && (
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteCard(flashcard?.id?.toString() ?? "");
+                }}
+                variant={"outline"}
+              >
+                <DeleteIcon color="red" />
               </Button>
             )}
-
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteCard(flashcard?.id?.toString() ?? "");
-              }}
-              variant={"outline"}
-            >
-              <DeleteIcon color="red" />
-            </Button>
           </CardFooter>
         </div>
         <div className="back" ref={backEl}>

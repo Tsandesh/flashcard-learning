@@ -8,14 +8,15 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
-import { CardProps, CardType } from "@/types/CardType";
+import { CardProps } from "@/types/CardType";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CardContextType {
   addCard: (card: CardProps) => void;
   updateCard: (card: CardProps, question: string) => void;
   getAllCards: () => void;
   deleteCard: (id: string) => void;
-  cards: CardType[];
+  cards: CardProps[];
   toggle: boolean;
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -23,8 +24,9 @@ interface CardContextType {
 const CardContext = createContext<CardContextType | null>(null);
 
 const CardContextProvider = ({ children }: { children: ReactNode }) => {
-  const [cards, setCards] = useState<CardType[]>([]);
+  const [cards, setCards] = useState<CardProps[]>([]);
   const [toggle, setToggle] = useState<boolean>(false);
+  const { toast } = useToast();
 
   async function addCard(card: CardProps) {
     try {
@@ -38,10 +40,13 @@ const CardContextProvider = ({ children }: { children: ReactNode }) => {
       });
 
       if (res) {
-        return { status: 200 };
+        toast({
+          title: "Success",
+          description: "Document successfully Added!",
+        });
       }
     } catch (e) {
-      console.error("Error adding document: ", e);
+      toast({ variant: "destructive", title: "Error adding document: " });
     } finally {
       setToggle(false);
     }
@@ -63,9 +68,16 @@ const CardContextProvider = ({ children }: { children: ReactNode }) => {
       await updateDoc(cardRef, {
         question: question || null,
       });
-      console.log("Document successfully updated!");
+      toast({
+        title: "Success",
+        description: "Document successfully updated!",
+      });
     } catch (error) {
-      console.error("Error updating document: ", error);
+      toast({
+        variant: "destructive",
+        title: `Error ${error}`,
+        description: "Document  update Error",
+      });
     } finally {
       setToggle(false);
     }
@@ -75,6 +87,11 @@ const CardContextProvider = ({ children }: { children: ReactNode }) => {
     setToggle(true);
     await deleteDoc(doc(db, "cards", id));
     setToggle(false);
+    toast({
+      variant: "destructive",
+      title: "Success",
+      description: "Document Deleted !",
+    });
   };
 
   return (
