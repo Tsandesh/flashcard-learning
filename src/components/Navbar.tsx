@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { DialogDemo } from "./CreateCard";
+import DialogDemo from "./CreateCard";
 import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
 

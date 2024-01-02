@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "./ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import {
   Dialog,
@@ -8,12 +8,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CardContext } from "@/context/Cardcontext";
+} from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { CardContext } from "../context/Cardcontext";
 import { Textarea } from "./ui/textarea";
-
 import { Alert, AlertTitle } from "./ui/alert";
 
 type DilogType = {
@@ -21,7 +20,33 @@ type DilogType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
+export function checkValidation(
+  question: string,
+  correctAnswer: string,
+  incorrectAnswers: string[],
+  description: string
+): { isValid: boolean } {
+  if (question.length === 0) {
+    return { isValid: false };
+  }
+  if (correctAnswer.length === 0) {
+    return { isValid: false };
+  }
+  if (description.length === 0) {
+    return { isValid: false };
+  }
+  if (
+    incorrectAnswers[0].length === 0 ||
+    incorrectAnswers[1].length === 0 ||
+    incorrectAnswers[2].length === 0
+  ) {
+    return { isValid: false };
+  }
+
+  return { isValid: true };
+}
+
+export default function DialogDemo({ isOpen, setIsOpen }: DilogType) {
   const context = useContext(CardContext);
   if (!context) {
     return null;
@@ -33,28 +58,6 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
   const [incorrectAnswers, setIncorrectAnswers] = useState(["", "", "", ""]);
   const [description, setDescription] = useState("");
   const [errMsg, setErrMsg] = useState("");
-
-  const handleSubmit = () => {
-    setErrMsg("");
-    const { isValid } = checkValidation();
-
-    if (!isValid) {
-      return;
-    }
-
-    const newItem = {
-      question: question,
-      answer: correctAnswer,
-      incorrect_answers: incorrectAnswers,
-      options: [...incorrectAnswers, correctAnswer].sort(
-        () => Math.random() - 0.5
-      ),
-      description,
-    };
-    addCard(newItem);
-    setIsOpen(false);
-    setErrMsg("");
-  };
 
   function checkValidation() {
     if (question.length === 0) {
@@ -81,6 +84,28 @@ export function DialogDemo({ isOpen, setIsOpen }: DilogType) {
     setErrMsg(""); // Clear error message if all fields are valid
     return { isValid: true };
   }
+
+  const handleSubmit = () => {
+    setErrMsg("");
+    const { isValid } = checkValidation();
+
+    if (!isValid) {
+      return;
+    }
+
+    const newItem = {
+      question: question,
+      answer: correctAnswer,
+      incorrect_answers: incorrectAnswers,
+      options: [...incorrectAnswers, correctAnswer].sort(
+        () => Math.random() - 0.5
+      ),
+      description,
+    };
+    addCard(newItem);
+    setIsOpen(false);
+    setErrMsg("");
+  };
 
   useEffect(() => {
     if (isOpen === false) {
