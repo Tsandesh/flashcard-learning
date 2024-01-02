@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Flashcard Learning
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The Project is a flashcard application where there exists one card having one question and 4 options and  by clicking the card one can see the answer>
 
-## Expanding the ESLint configuration
+It has two pages 
+1. home page
+2. Study page ( you can navigate to the page by clicking on the "Study" tab on the top left of the navbar
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+For live demo visit https://frontend-assignment-gmqn.vercel.app/
 
-- Configure the top-level `parserOptions` property like this:
+## Documentation
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+I have used vite react-ts for project initialization and used tailwind css with shadcn for UI, Firebase for authentication, real-time database services
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To get started follow the steps below 
+
+    . open up a terminal and paste " git clone https://github.com/Tsandesh/flashcard-learning.git"
+    .now install all the necessary dependencies and packages  "yarn" or " npm install"
+
+
+
+
+## About 
+
+Contributions are always welcome!
+
+it has two pages 
+1. home page
+2. Study page ( you can navigate to the page by clicking on the "Study" tab on the top left of the navbar
+
+
+
+    FOR CRUD OPERATIONS
+
+        1. first Login to the App by clicking on the Login button
+
+        2. email: test@test.com password: test1234
+
+        3. upon logging in you can see the operations to do on  the card itself
+
+        4. to create a new question go to the Create Card button on the top right side corner
+
+        5. fill in the details and press the Save changes button (note everything is required)
+
+
+## Demo
+
+https://flashcard-learning.vercel.app/
