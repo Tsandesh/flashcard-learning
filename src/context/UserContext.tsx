@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { auth } from "@/firebase/firebase";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -10,7 +10,7 @@ type UserProps = {
 };
 
 interface User {
-  accessToken: string; // Add the accessToken property
+  accessToken: string;
   email: string;
 }
 
@@ -42,6 +42,7 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
         setUser({
           // @ts-ignore
           accessToken: user?.accessToken,
+          // @ts-ignore
           email: user?.email,
         });
         toast({
