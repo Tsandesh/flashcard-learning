@@ -1,7 +1,12 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { auth } from "@/firebase/firebase";
 import { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { useToast } from "@/components/ui/use-toast";
 
 type UserProps = {
@@ -21,6 +26,7 @@ interface UserContextType {
   handleLogout: () => void;
   toggle2: boolean;
   setToggle2: React.Dispatch<React.SetStateAction<boolean>>;
+  signupUserWithEmailAndPassword: ({ email, password }: UserProps) => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -84,9 +90,49 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
     setToggle2(false);
   };
 
+  const signupUserWithEmailAndPassword = ({ email, password }: UserProps) => {
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then((res) => {
+        toast({
+          title: `Success`,
+          description: "User Created Prcoeed to Login",
+        });
+      })
+      .catch((error) => {
+        console.error("Error signing up:", error);
+
+        toast({
+          variant: "destructive",
+          title: `Error ${error.code}`,
+          description: error.message,
+        });
+      });
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user)
+        setUser({
+          // @ts-ignore
+          accessToken: user?.accessToken,
+          // @ts-ignore
+          email: user?.email,
+        });
+      else setUser({ accessToken: "", email: "" });
+    });
+  }, []);
+
   return (
     <UserContext.Provider
-      value={{ user, setUser, handleLogin, handleLogout, toggle2, setToggle2 }}
+      value={{
+        user,
+        setUser,
+        handleLogin,
+        handleLogout,
+        signupUserWithEmailAndPassword,
+        toggle2,
+        setToggle2,
+      }}
     >
       {children}
     </UserContext.Provider>

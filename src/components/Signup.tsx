@@ -18,13 +18,13 @@ type DilogType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function LoginModal({ isOpen, setIsOpen }: DilogType) {
+export function SignupModal({ isOpen, setIsOpen }: DilogType) {
   const context = useContext(UserContext);
   if (!context) {
     return null;
   }
 
-  const { handleLogin } = context;
+  const { signupUserWithEmailAndPassword } = context;
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
@@ -38,7 +38,7 @@ export function LoginModal({ isOpen, setIsOpen }: DilogType) {
     <Dialog open={isOpen} onOpenChange={() => setIsOpen}>
       <DialogContent className="sm:max-w-[425px] md:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Login</DialogTitle>
+          <DialogTitle>Sign Up</DialogTitle>
           <DialogDescription>Fill the information below.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -59,8 +59,8 @@ export function LoginModal({ isOpen, setIsOpen }: DilogType) {
             </Label>
             <Input
               id="answer"
-              value={pass}
               type="password"
+              value={pass}
               onChange={(e) => setPass(e.target.value)}
               className="col-span-3"
             />
@@ -73,11 +73,11 @@ export function LoginModal({ isOpen, setIsOpen }: DilogType) {
 
           <Button
             onClick={() => {
-              handleLogin({ email, password: pass });
+              signupUserWithEmailAndPassword({ email, password: pass });
               setIsOpen(!open);
             }}
           >
-            Login
+            Sign Up
           </Button>
         </DialogFooter>
       </DialogContent>

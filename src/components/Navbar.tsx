@@ -7,10 +7,12 @@ import logo from "@/assets/logoo.png";
 import { Link } from "react-router-dom";
 import { UserContext } from "@/context/UserContext";
 import { LoginModal } from "./Login";
+import { SignupModal } from "./Signup";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpen2, setIsOpen2] = useState<boolean>(false);
+  const [isOpen3, setIsOpen3] = useState<boolean>(false);
   const context = useContext(UserContext);
   if (!context) {
     return null;
@@ -33,7 +35,10 @@ const Navbar = () => {
 
         <div className="flex align-center gap-2">
           {user.accessToken === "" ? (
-            <Button onClick={() => setIsOpen2(!isOpen)}> Login</Button>
+            <>
+              <Button onClick={() => setIsOpen2(!isOpen2)}> Login</Button>
+              <Button onClick={() => setIsOpen3(!isOpen3)}> Signup</Button>
+            </>
           ) : (
             <>
               <Button onClick={() => setIsOpen(!isOpen)}>Create Card</Button>
@@ -47,6 +52,7 @@ const Navbar = () => {
 
       <DialogDemo isOpen={isOpen} setIsOpen={setIsOpen} />
       <LoginModal isOpen={isOpen2} setIsOpen={setIsOpen2} />
+      <SignupModal isOpen={isOpen3} setIsOpen={setIsOpen3} />
     </>
   );
 };
